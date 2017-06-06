@@ -1,0 +1,89 @@
+﻿@model DailyReporterMVC.Models.ReportsViewModel
+
+
+<h2>Reports</h2>
+<div>
+  Access token: @Model.AccessToken
+</div>
+<table class="table">
+  <tr>
+    <th>Name:</th>
+    <th>Embed URL:</th>
+  </tr>
+
+  @foreach (var item in Model.reports) {
+    <tr>
+      <td>
+        @item.name
+      </td>
+      <td>
+        @item.embedUrl
+      </td>
+    </tr>
+  }
+</table>
+
+
+<script src="~/Scripts/powerbi.js"></script>
+
+<script type="text/javascript">
+
+            window.onload = function () {
+            var accessToken = "@Model.AccessToken";
+
+
+            var embedUrl = "@Model.defaultReport.embedUrl";
+            var reportId = "@Model.defaultReport.id";
+
+            var config= {
+                type: 'report',
+                accessToken: accessToken,
+                embedUrl: embedUrl,
+                id: reportId,
+                settings: {
+                    filterPaneEnabled: true,
+                    navContentPaneEnabled: true
+                }
+            };
+
+            // Grab the reference to the div HTML element that will host the report.
+            var reportContainer = document.getElementById('reportContainer');
+
+            // Embed the report and display it within the div container.
+            var report = powerbi.embed(reportContainer, config);
+
+            // Report.on will add an event handler which prints to Log window.
+            report.on("loaded", function () {
+                var logView = document.getElementById('logView');
+                logView.innerHTML = logView.innerHTML + "Loaded<br/>";
+
+                // Report.off removes a given event handler if it exists.
+                report.off("loaded");
+            });
+
+            // Report.on will add an event handler which prints to Log window.
+            report.on("rendered", function () {
+                var logView = document.getElementById('logView');
+                logView.innerHTML = logView.innerHTML + "Rendered<br/>";
+
+                // Report.off removes a given event handler if it exists.
+                report.off("rendered");
+            });
+        };
+</script>
+
+<div>
+  Embedded Report
+  <br />
+  <div ID="reportContainer" style="width: 900px; height: 500px"></div>
+</div>
+
+<div>
+  Embedded Report
+  <br />
+  <div ID="reportContainer" style="width: 900px; height: 500px"></div>
+</div>
+<hr />
+<div>
+  <div id="logView" />
+</div>
