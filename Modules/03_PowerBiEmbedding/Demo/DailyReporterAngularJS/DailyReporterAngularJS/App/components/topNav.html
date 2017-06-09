@@ -1,0 +1,24 @@
+﻿
+<div class="container">
+  <div class="navbar navbar-inverse" role="navigation" >
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">Daily Reporter AngularJS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/reports" ng-show="$ctrl.userInfo.isAuthenticated">Reports</a></li>
+        <li><a href="/dashboards" ng-show="$ctrl.userInfo.isAuthenticated">Dashboards</a></li>
+      </ul>
+      <div id="login" class="pull-right">
+        <span style="color:white;" ng-show="$ctrl.isUserAuthenticated">Hello {{ $ctrl.userInfo.profile.given_name }}</span>
+        <a class="btn btn-link" ng-hide="$ctrl.isUserAuthenticated" ng-click="$ctrl.login()">Login</a>
+        <a class="btn btn-link" ng-show="$ctrl.isUserAuthenticated" ng-click="$ctrl.logout()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>

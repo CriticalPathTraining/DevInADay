@@ -48,17 +48,22 @@ namespace DailyReporterMVC.Services {
 
     #endregion
     
-    public static async Task<ReportsViewModel> GetReports() {
+    public static async Task<ReportsViewModel> GetReports(string reportId) {
 
       string jsonResult = await ExecuteGetRequest(restUrlReports);
       ReportCollection reports = JsonConvert.DeserializeObject<ReportCollection>(jsonResult);
       string accessToken = await TokenManagerService.GetPowerBiAccessToken();
       ReportsViewModel reportsViewModel = new ReportsViewModel {
-        reports = reports.value,
-        defaultReport = reports.value[0],
+        UserIsAuthenticated = true,
+        Reports = reports.value,
+        CurrentReport = null,
         AccessToken = accessToken
       };
 
+      if (!string.IsNullOrEmpty(reportId)) {
+        reportsViewModel.CurrentReport = reports.value.Find(report => report.id.Equals(reportId));
+      }
+      
       return reportsViewModel;
     }
   }

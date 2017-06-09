@@ -11,7 +11,7 @@
     <th>Embed URL:</th>
   </tr>
 
-  @foreach (var item in Model.reports) {
+  @foreach (var item in Model.Reports) {
     <tr>
       <td>
         @item.name
@@ -32,8 +32,8 @@
             var accessToken = "@Model.AccessToken";
 
 
-            var embedUrl = "@Model.defaultReport.embedUrl";
-            var reportId = "@Model.defaultReport.id";
+            var embedUrl = "@Model.CurrentReport.embedUrl";
+            var reportId = "@Model.CurrentReport.id";
 
             var config= {
                 type: 'report',

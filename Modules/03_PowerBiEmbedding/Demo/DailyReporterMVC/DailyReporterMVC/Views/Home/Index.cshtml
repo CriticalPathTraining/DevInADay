@@ -1,1 +1,224 @@
-﻿<h2>Home Page</h2>
+﻿@model DailyReporterMVC.Models.ReportsViewModel
+
+
+@{
+  // these variables are used to determine whether lefty nav is collapsed when page loads
+  // the left nav is collapsed when loading page with no current report
+  // the left nav is expanded when loading page when a report is being embedded
+  bool ReportIsLoading = (Model.CurrentReport != null);
+  string navigationPaneCollapsedStyle = (!ReportIsLoading) ? "navigationPaneCollapsed" : "";
+  string contentBodyNavigationCollapsedStyle = (!ReportIsLoading) ? "contentBodyNavigationCollapsed" : "";
+  string leftNavHideStyle = (!ReportIsLoading) ? "leftNavHide" : "";
+  string hideIfCollapsed = (!ReportIsLoading) ? "hidden" : "";
+}
+
+<div id="banner">
+  <div id="app-icon"></div>
+  <div id="top-nav" class="hidden-xs">
+    @Html.Partial("_LoginPartial")
+  </div>
+  <div id="app-title">
+    @if (ReportIsLoading) {
+      @Model.CurrentReport.name
+      <span id="reportTitleInTitleArea"></span>
+    }
+    else {
+      <text>Daily Reporter</text>
+    }
+  </div>
+</div>
+
+@if (!Model.UserIsAuthenticated) {
+
+  <div id="left-nav" class="navigationPane navigationPaneCollapsed" style="height:800px;">
+    &nbsp;
+  </div>
+
+  <div id="content-body" class="contentBody contentBodyNavigationCollapsedStyle">
+    <div class="side-body padding-top">
+      <div id="noReportView">
+        <h3>
+          <span class="fa fa-cubes icon"></span>Welcome to the Daily Reporter
+        </h3>
+        <div>Click the <b>Sign in</b> link to log into with your Office 365 user account</div>
+      </div>
+      }
+    </div>
+
+  </div>
+
+}
+else {
+
+  <div id="left-nav" class="navigationPane @navigationPaneCollapsedStyle" style="height:800px;">
+    <div id="navigation-toggle" class="fa fa-mail-forward"></div>
+
+    <div id="left-nav-body">
+
+      <div class="leftNavSection">
+        <div class="leftNavIcon fa fa-bar-chart"></div>
+        <div class="leftNavTitle leftNavItem @leftNavHideStyle">Reports</div>
+        <ul id="reportsMenu" class="leftNavMenu leftNavItem @leftNavHideStyle">
+          @foreach (var report in Model.Reports) {
+          var reportClass = Request.QueryString["reportId"] == report.id ? "activeReport" : "";
+            <li class="@reportClass">
+              @Html.ActionLink(report.name, "Index", new { reportId = report.id })
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div id="report-loading-message" class="leftNavSection" @hideIfCollapsed>
+        <div class="leftNavTitle">Loading Report...</div>
+      </div>
+
+
+      @if (ReportIsLoading) {
+
+        <div id="report-elements" hidden>
+
+          <div class="leftNavSection">
+            <div class="leftNavIcon fa fa-wrench"></div>
+            <div class="leftNavTitle leftNavItem @leftNavHideStyle">Report Configuration</div>
+            <div class="leftNavMenu leftNavItem @leftNavHideStyle">
+              <label>
+                <input id="setting-shownav" type="checkbox" /> Show Navigation
+              </label>
+              <label>
+                <input id="setting-showfilterpane" type="checkbox" /> Show Filter Pane
+              </label>
+            </div>
+          </div>
+
+          <div class="leftNavSection">
+            <div class="leftNavIcon fa fa-book"></div>
+            <div class="leftNavTitle leftNavItem leftNavItem @leftNavHideStyle">
+              <span>Report Pages</span>
+              <span id="page-navigation-buttons">
+                <span id="goto-prev-page" class="fa fa-arrow-circle-left"></span>
+                <span>&nbsp;</span>
+                <span id="goto-next-page" class="fa fa-arrow-circle-right"></span>
+              </span>
+            </div>
+
+            <ul id="page-navigation" class="leftNavMenu leftNavItem @leftNavHideStyle">
+              <!-- report pages loaded using onReportLoaded event handler -->
+            </ul>
+
+          </div>
+
+          <div class="leftNavSection">
+            <div id="print-report-page" class="leftNavIconPrint fa fa-print"></div>
+            <div class="leftNavTitle leftNavItem @leftNavHideStyle">Print</div>
+          </div>
+
+        </div>
+      }
+    </div>
+  </div>
+
+  <div id="content-body" class="contentBody @contentBodyNavigationCollapsedStyle">
+
+    <div class="side-body padding-top">
+      @if (ReportIsLoading) {
+        <div id="pbi-report" style="height:90vh;" />
+      }
+      else {
+        <div id="noReportView">
+          <h3>
+            <span class="fa fa-cube icon"></span> - Now connected to your personal workspace
+          </h3>
+          <div>Select a Power BI report to load from the left-side <b>Reports</b> navigation menu</div>
+        </div>
+      }
+    </div>
+  </div>
+}
+
+
+@if (ReportIsLoading) {
+  <script language="JavaScript">
+    var leftNavCollapsed = false;
+    console.log("Loading with left-nav expanded")
+  </script>
+}
+else {
+  <script language="JavaScript">
+    var leftNavCollapsed = true;
+    console.log("Loading with left-nav collapsed")
+  </script>
+}
+
+@if (Model.CurrentReport != null) {
+  <script type="text/javascript">
+
+    window.onload = function () {
+
+      var accessToken = "@Model.AccessToken";
+      var embedUrl = "@Model.CurrentReport.embedUrl";
+      var reportId = "@Model.CurrentReport.id";
+
+      var reportContainer = document.getElementById("pbi-report");
+
+      var reportConfig = {
+        type: 'report',
+        accessToken: accessToken,
+        embedUrl: embedUrl,
+        id: reportId,
+        settings: {
+          filterPaneEnabled: true,
+          navContentPaneEnabled: true
+        }
+      };
+
+      // Embed the report and display it within the div container.
+      var report = powerbi.embed(reportContainer, reportConfig);
+
+      var pages = [];
+      var currentPageIndex = 0;
+      var currentPage = null;
+
+      report.on('loaded', function () {
+        report.getPages().then(
+          function (reportPages) {
+            // assign report pages collection to pages array
+            pages = reportPages;
+            // initialize UI to radio button for each report page
+            loadReportPages(pages);
+          });
+      });
+
+      report.on('pageChanged', function (e) {
+        currentPage = e.detail.newPage;
+
+        setActiveReportPage(currentPage);
+
+        currentPageIndex = pages.findIndex(function (el) {
+          return el.name === e.detail.newPage.name;
+        });
+
+      });
+
+
+      function changePage(direction) {
+        var nextPageIndex = currentPageIndex + direction;
+        if (nextPageIndex < 0) nextPageIndex = pages.length - 1;
+        if (nextPageIndex >= pages.length) nextPageIndex = 0;
+        pages[nextPageIndex].setActive();
+      }
+
+      $('#setting-shownav').on('change', function (e) { updateSetting(e, 'navContentPaneEnabled'); });
+      $('#setting-showfilterpane').on('change', function (e) { updateSetting(e, 'filterPaneEnabled'); });
+      $('#goto-prev-page').on('click', function () { changePage(-1); });
+      $('#goto-next-page').on('click', function () { changePage(1); });
+
+      function updateSetting(e, settingName) {
+        var settings = {};
+        settings[settingName] = e.target.checked;
+        report.updateSettings(settings);
+      }
+    }
+
+
+  </script>
+}

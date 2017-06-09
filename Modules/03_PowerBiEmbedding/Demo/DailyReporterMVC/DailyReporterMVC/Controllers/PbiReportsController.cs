@@ -12,7 +12,7 @@ namespace DailyReporterMVC.Controllers {
   [Authorize]
   public class PbiReportsController : Controller {
     public async Task<ActionResult> Index() {
-      ReportsViewModel reportsViewModel = await PowerBiService.GetReports();
+      ReportsViewModel reportsViewModel = await PowerBiService.GetReports("");
 
       return View(reportsViewModel);
     }
