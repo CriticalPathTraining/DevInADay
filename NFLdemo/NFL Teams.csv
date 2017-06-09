@@ -1,4 +1,4 @@
-Team,Division,Conference,City,RosterUrl,TeamImageUrl
+Team,Division,Conference,City,TeamRosterUrl,TeamLoogoUrl
 Bills,AFC-East,AFC,"Buffalo, NY",http://www.buffalobills.com/team/roster.html,https://cpt.azureedge.net/NFLTeamImages/bills.png
 Dolphins,AFC-East,AFC,"Miami, FL",http://www.miamidolphins.com/team/player-roster.html,https://cpt.azureedge.net/NFLTeamImages/dolphins.png
 Jets,AFC-East,AFC,"East Rutherford, NJ",http://www.newyorkjets.com/team/roster.html,https://cpt.azureedge.net/NFLTeamImages/jets.png
