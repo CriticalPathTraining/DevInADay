@@ -14,7 +14,7 @@ namespace PbixInstallerForPowerBI {
   class ProgramConstants {
 
     // update client id to reference an application registred with Azure
-    public const string ClientID = "[[YOUR_CLIENT_ID_HERE]]";
+    public const string ClientID = "deb4c6a2-f1fe-4c90-9be8-a0675962e14d";
 
     // Redirect URL needs to match reply URL in Azure registration
     public const string RedirectUri = "https://localhost/PbixInstallerForPowerBI";
@@ -61,7 +61,7 @@ namespace PbixInstallerForPowerBI {
 
       //var userAuthnResult = authenticationContext.AcquireTokenAsync(ProgramConstants.PowerBiServiceResourceUri,
       //                                                              ProgramConstants.ClientID,
-      //                                                              userCreds).Result;
+      //                                                             userCreds).Result;
 
 
       // cache access token in AccessToken field
@@ -287,10 +287,10 @@ namespace PbixInstallerForPowerBI {
 
       AcquireAccessToken();
 
-      //DisplayWorkspaceContents();
+      DisplayWorkspaceContents();
 
-      string pbixFilePath = @"C:\DevProjects\Git\PBIX\WingtipSalesDirectQuery.pbix";
-      string importName = "Wingtip Sales Direct Query";
+      string pbixFilePath = @"C:\Student\PBIX\WingtipSalesDirectQuery.pbix";
+      string importName = "Wingtip Sales DQ1";
       
       ImportPBIX(pbixFilePath, importName);      
       PatchDatasourceCredentials(importName, "CptStudent", "pass@word1");

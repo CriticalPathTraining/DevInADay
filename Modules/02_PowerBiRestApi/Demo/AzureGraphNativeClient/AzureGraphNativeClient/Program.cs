@@ -31,7 +31,7 @@ namespace AzureGraphNativeClient {
       Uri uriAzureGraphApiResource = new Uri(urlAzureGraphApi + tenantDomain);
 
       // 
-      string clientID = "6ee6d030-97c2-4aac-8fa1-aace2e307e2c";
+      string clientID = "e2513d6e-4357-4b95-aea2-e9282c083b96";
       string redirectUri = "https://localhost/AzureGraphNativeClient";
 
 
