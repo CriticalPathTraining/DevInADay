@@ -1,0 +1,4 @@
+Power BI account: <Your account>
+Password:         <Your password>
+Group ID:         <Your Group ID>
+Client ID:        <Your Client ID>
