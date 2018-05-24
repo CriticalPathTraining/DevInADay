@@ -1,2 +1,2 @@
 # DevInADay
-Slides and sample code from the Microsoft Data Insights Summit precon workshop titled Power BI Dev in a Day
+Slides and sample code from the SharePoint NA Conference postcon workshop on Power BI development by Ted Pattison.
