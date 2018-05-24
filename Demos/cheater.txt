@@ -1,0 +1,28 @@
+Budgets Table
+-------------
+Budget Key = [Year] & "-" & [Quarter] & "-" & [Category] 
+
+Expenses Table
+--------------
+Budget Key =    VAR BudgetYear = YEAR([Date])   VAR BudgetMonth = "Q" & FORMAT([Date],"q") RETURN   BudgetYear & "-" & BudgetMonth & "-" & [Category] 
+
+
+MEASURES
+--------
+Actual Expenses = SUM(Expenses[Amount])
+
+Budget = Sum(Budgets[Amount])
+
+Budget Used = [Actual Expenses] / [Budget]
+
+Status = 
+IF(
+    [Budget Used] > 1, 
+    UNICHAR(9940), 
+    UNICHAR(9989)
+)
+
+CALCULATED COLUMN
+-----------------
+
+Budget Title = [Category] & " Budget for " & [Quarter] & " of " & [Year]
