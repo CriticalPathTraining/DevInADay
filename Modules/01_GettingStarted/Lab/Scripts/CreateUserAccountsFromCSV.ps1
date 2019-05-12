@@ -1,9 +1,9 @@
 Clear-Host 
 
 # update the next three lines with values from your Office 365 tenant
-$classroomDomainName = "cruces0506"
-$globalAdminAccountName = "tedp"
-$globalAdminPassword = "Pa$`$`word!"
+$classroomDomainName = ""
+$globalAdminAccountName = ""
+$globalAdminPassword = ""
 
 $classroomDomain = $classroomDomainName + ".onMicrosoft.com"
 $classroomSharePointRootSite = "https://" + $classroomDomainName + ".sharepoint.com"
@@ -86,7 +86,7 @@ Write-Host $globalAdminPassword
 $credential = New-Object -TypeName System.Management.Automation.PSCredential `
                          -ArgumentList $globalAdminAccount, $globalAdminSecurePassword
 
-Connect-AzureAD  -Credential $credential
+$authResult = Connect-AzureAD  -Credential $credential
 
 $UserDataFilePath = ("{0}\UserData.csv" -f $PSScriptRoot)
 $Users = Import-csv -path $UserDataFilePath
@@ -94,3 +94,6 @@ $Users = Import-csv -path $UserDataFilePath
 foreach($User in $Users) { 
    New-User $User.FirstName $User.LastName $User.AlternateEmail 
 }
+
+Write-Host "User accounts created"
+Write-Host 
