@@ -1,12 +1,12 @@
 # log into Azure AD
-$userName = ""
-$password = ""
+$userName = "tedp@devinaday.onMicrosoft.com"
+$password = "Pa`$`$word!"
 
 $securePassword = ConvertTo-SecureString –String $password –AsPlainText -Force
 $credential = New-Object –TypeName System.Management.Automation.PSCredential `
                          –ArgumentList $userName, $securePassword
 
-$authResult = Connect-AzureAD #-Credential $credential
+$authResult = Connect-AzureAD -Credential $credential
 
 # register a new public client app
 
