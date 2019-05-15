@@ -1,6 +1,6 @@
 # log into Azure AD
-$userName = "tedp@devinaday.onMicrosoft.com"
-$password = "Pa`$`$word!"
+$userName = "user1@tenant1.onMicrosoft.com"
+$password = ""
 
 $securePassword = ConvertTo-SecureString –String $password –AsPlainText -Force
 $credential = New-Object –TypeName System.Management.Automation.PSCredential `

@@ -122,6 +122,7 @@ namespace ThoroughlyModernPowerBiApp {
         Console.WriteLine(" - " + report.Name + " [" + report.Id + "]");
       }
 
+      //Console.WriteLine();
       //Console.WriteLine("Datasets:");
       //var datasets = pbiClient.Datasets.GetDatasetsInGroup(appWorkspaceId).Value;
       //foreach (var dataset in datasets) {
