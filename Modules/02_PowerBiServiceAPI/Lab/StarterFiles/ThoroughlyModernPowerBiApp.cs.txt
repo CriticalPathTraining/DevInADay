@@ -26,11 +26,11 @@ namespace ThoroughlyModernPowerBiApp {
     static string[] scopesReadWorkspaceAssets= new string[] {
         "https://analysis.windows.net/powerbi/api/Dashboard.Read.All",
         "https://analysis.windows.net/powerbi/api/Dataset.Read.All",
-        "https://analysis.windows.net/powerbi/api/Report.Read.All",
+        "https://analysis.windows.net/powerbi/api/Report.Read.All"
       };
 
     static string[] scopesReadUserApps = new string[] {
-        "https://analysis.windows.net/powerbi/api/App.Read.All",
+        "https://analysis.windows.net/powerbi/api/App.Read.All"
       };
 
     static string[] scopesManageWorkspaceAssets = new string[] {
@@ -79,11 +79,11 @@ namespace ThoroughlyModernPowerBiApp {
     static string GetAccessTokenWithUserPassword(string[] scopes) {
 
       var appPublic = PublicClientApplicationBuilder.Create(clientIdPublicApp)
-                       .WithAuthority("https://login.microsoftonline.com/msd0429.onMicrosoft.com")
+                       .WithAuthority("https://login.microsoftonline.com/organizations")
                        .Build();
 
-      string username = "tedp@cruces0506.onMicrosoft.com";
-      string userPassword = "Pa$$word!";
+      string username = "student@MY_TENANT.onMicrosoft.com";
+      string userPassword = "";
       SecureString userPasswordSecure = new SecureString();
       foreach (char c in userPassword) {
         userPasswordSecure.AppendChar(c);
@@ -128,32 +128,6 @@ namespace ThoroughlyModernPowerBiApp {
       //foreach (var dataset in datasets) {
       //  Console.WriteLine(" - " + dataset.Name + " [" + dataset.Id + "]");
       //}
-
-      Console.WriteLine();
-    }
-
-    static void DisplayApps() {
-
-      string AccessToken = GetAccessTokenInteractive(scopesReadUserApps);
-      var pbiClient = new PowerBIClient(new Uri(urlPowerBiRestApiRoot),
-                                             new TokenCredentials(AccessToken, "Bearer"));
-
-      Console.WriteLine();
-      var apps = pbiClient.Apps.GetApps().Value;
-      foreach (var app in apps) {
-        Console.WriteLine(app.Name + " [" + app.Id + "]");
-        var dashboards = pbiClient.Apps.GetDashboards(app.Id).Value;
-        Console.WriteLine("- Dashboards");
-        foreach(var dashboard in dashboards) {
-          Console.WriteLine("  - " + dashboard.DisplayName);
-        }
-        var reports = pbiClient.Apps.GetReports(app.Id).Value;
-        Console.WriteLine("- Reports");
-        foreach (var report in reports) {
-          Console.WriteLine("  - " + report.Name);
-        }
-        Console.WriteLine();
-      }
 
       Console.WriteLine();
     }
