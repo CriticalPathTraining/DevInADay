@@ -80,9 +80,6 @@ $LogFilePath = ("{0}\UsersLog.txt" -f $PSScriptRoot)
 "Log of created user accounts" | Out-File $LogFilePath
 "" | Out-File $LogFilePath -Append
 
-Write-Host $globalAdminAccountName
-Write-Host $globalAdminPassword
-
 $credential = New-Object -TypeName System.Management.Automation.PSCredential `
                          -ArgumentList $globalAdminAccount, $globalAdminSecurePassword
 

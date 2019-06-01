@@ -10,7 +10,7 @@ $authResult = Connect-AzureAD -Credential $credential
 
 # register a new public client app
 
-$appDisplayName = "My Public Client App"
+$appDisplayName = "Power BI Service App 2"
 
 # get more info about the logged in user
 $user = Get-AzureADUser -ObjectId $authResult.Account.Id
@@ -18,7 +18,7 @@ $user = Get-AzureADUser -ObjectId $authResult.Account.Id
 # create Azure AD Application
 $replyUrl = "https://localhost/app1234"
 $aadApplication = New-AzureADApplication `
-                        -DisplayName "My Public Client App" `
+                        -DisplayName $appDisplayName `
                         -PublicClient $true `
                         -AvailableToOtherTenants $false `
                         -ReplyUrls @($replyUrl)

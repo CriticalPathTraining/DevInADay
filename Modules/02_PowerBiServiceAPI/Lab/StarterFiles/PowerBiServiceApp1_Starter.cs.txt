@@ -34,7 +34,6 @@ class Program {
 
   }
 
-
   static PowerBIClient GetPowerBiClient() {
     var tokenCredentials = new TokenCredentials(GetAccessToken(), "Bearer");
     return new PowerBIClient(new Uri(urlPowerBiRestApiRoot), tokenCredentials);
