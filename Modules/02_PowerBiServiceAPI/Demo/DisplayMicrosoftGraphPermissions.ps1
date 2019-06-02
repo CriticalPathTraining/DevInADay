@@ -1,10 +1,6 @@
 Clear-Host
-$userName = "tedp@cruces0506.onMicrosoft.com"
-$password = "Pa`$`$word!"
-
-# log into Azure AD
-#$userName = ""
-#$password = ""
+$userName = "user1@MY_TENANT.onMicrosoft.com"
+$password = ""
 
 $securePassword = ConvertTo-SecureString –String $password –AsPlainText -Force
 $credential = New-Object –TypeName System.Management.Automation.PSCredential `

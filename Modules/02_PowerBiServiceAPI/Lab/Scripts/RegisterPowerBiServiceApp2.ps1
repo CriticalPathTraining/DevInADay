@@ -8,12 +8,15 @@ $credential = New-Object –TypeName System.Management.Automation.PSCredential `
 
 $authResult = Connect-AzureAD -Credential $credential
 
-# register a new public client app
 
+# display name for new public client app
 $appDisplayName = "Power BI Service App 2"
 
-# get more info about the logged in user
+# get user account ID for logged in user
 $user = Get-AzureADUser -ObjectId $authResult.Account.Id
+
+# get tenant name of logged in user
+$tenantName = $authResult.TenantDomain
 
 # create Azure AD Application
 $replyUrl = "https://localhost/app1234"
@@ -48,9 +51,10 @@ $requiredAccess.ResourceAccess = $permission1, $permission2
 # add permissions by updating application with RequiredResourceAccess object
 Set-AzureADApplication -ObjectId $aadApplication.ObjectId -RequiredResourceAccess $requiredAccess
 
-$outputFile = "$PSScriptRoot\PublicClientAppInfo.txt"
-Out-File -FilePath $outputFile -InputObject "--- New Azure AD Public Client App Info ---"
-Out-File -FilePath $outputFile -Append -InputObject "AppId: $appId"
+$outputFile = "$PSScriptRoot\PowerBiServiceApp2.txt"
+Out-File -FilePath $outputFile -InputObject "--- Public Client App Info for PowerBiServiceApp2 ---"
+Out-File -FilePath $outputFile -Append -InputObject "ClientId: $appId"
 Out-File -FilePath $outputFile -Append -InputObject "ReplyUrl: $replyUrl"
+Out-File -FilePath $outputFile -Append -InputObject "TenantName: $tenantName"
 
 Notepad $outputFile

@@ -1,10 +1,10 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.PowerBI.Api.V2;
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 class Program {
 
@@ -16,7 +16,6 @@ class Program {
   static string appWorkspaceId = "";
   static string clientId = "";
   static string redirectUrl = "https://localhost/app1234";
-
 
   static string GetAccessToken() {
 
@@ -32,17 +31,17 @@ class Program {
 
     // return access token to caller
     return userAuthnResult.AccessToken;
+
   }
 
-
-  static string GetAccessTokenUsingUserPassword() {
+  static string GetAccessTokenWithPassword() {
 
     // create new authentication context 
     var authenticationContext = new AuthenticationContext(aadAuthorizationEndpoint);
 
     // use authentication context to sign-in using User Password Credentials flow
-    string masterUserAccount = "tedp@devinaday.onMicrosoft.com";
-    string masterUserPassword = "Pa$$word!";
+    string masterUserAccount = "user1@mytenant.onMicrosoft.com";
+    string masterUserPassword = "";
     UserPasswordCredential creds = new UserPasswordCredential(masterUserAccount, masterUserPassword);
 
     var userAuthnResult =
@@ -50,31 +49,24 @@ class Program {
 
     // return access token to caller
     return userAuthnResult.AccessToken;
-
   }
-
-
+  
   static PowerBIClient GetPowerBiClient() {
     var tokenCredentials = new TokenCredentials(GetAccessToken(), "Bearer");
     return new PowerBIClient(new Uri(urlPowerBiRestApiRoot), tokenCredentials);
   }
 
   static void Main() {
-
-    DisplayPersonalWorkspaceAssets();
-
+    //DisplayAppWorkspaceAssets();
     //CreateAppWorkspace("AWS 1");
-
     //string appWorkspaceId = CreateAppWorkspace("AWS 2");
     //string pbixPath = @"C:\Student\PBIX\Wingtip Sales Analysis.pbix";
     //string importName = "Wingtip Sales";
     //PublishPBIX(appWorkspaceId, pbixPath, importName);
-
-    // CloneAppWorkspace("Wingtip Sales", "AWS 3");
-
+    //CloneAppWorkspace("Wingtip Sales", "AWS 3");
   }
 
-  static void DisplayPersonalWorkspaceAssets() {
+  static void DisplayAppWorkspaceAssets() {
 
     PowerBIClient pbiClient = GetPowerBiClient();
 
@@ -229,7 +221,6 @@ class Program {
     Console.WriteLine();
 
   }
-
 
 }
 
