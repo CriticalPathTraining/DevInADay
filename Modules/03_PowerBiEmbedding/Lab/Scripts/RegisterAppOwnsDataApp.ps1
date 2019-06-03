@@ -1,6 +1,6 @@
 ﻿# log into Azure AD
-$userName = "tedp@pbi0520.onMicrosoft.com"
-$password = "Pa`$`$word!"
+$userName = "user1@MY_TENANT.onMicrosoft.com"
+$password = ""
 
 $securePassword = ConvertTo-SecureString –String $password –AsPlainText -Force
 $credential = New-Object –TypeName System.Management.Automation.PSCredential `
@@ -9,14 +9,13 @@ $credential = New-Object –TypeName System.Management.Automation.PSCredential `
 $authResult = Connect-AzureAD -Credential $credential
 
 # display name for new confidential client app
-$appDisplayName = "Test App-Owns-Data App"
+$appDisplayName = "App-Owns-Data App"
 
 # get user account ID for logged in user
 $user = Get-AzureADUser -ObjectId $authResult.Account.Id
 $userDisplayName = $user.DisplayName
 
 # get tenant name of logged in user
-$tenantId = $authResult.TenantId.ToString()
 $tenantName = $authResult.TenantDomain
 
 # create new password credential for client secret
@@ -30,7 +29,7 @@ $passwordCredential.KeyId = $newGuid
 $passwordCredential.Value = $appSecret 
 
 
-Write-Host "Registering new app $appDisplayName in $tenantDomain"
+Write-Host "Registering confidential application named $appDisplayName in $tenantName"
 
 # create Azure AD Application
 $aadApplication = New-AzureADApplication `
@@ -50,19 +49,26 @@ $serviceServicePrincipalObjectId = $serviceServicePrincipal.ObjectId
 # assign current user as owner
 Add-AzureADApplicationOwner -ObjectId $aadApplication.ObjectId -RefObjectId $user.ObjectId
 
+# Add service principal of the new app as member of Power BI Apps group
 $adSecurityGroupName = "Power BI Apps"
 $adSecurityGroup = Get-AzureADGroup -Filter "DisplayName eq '$adSecurityGroupName'"
-
 Add-AzureADGroupMember -ObjectId $($adSecurityGroup.ObjectId) -RefObjectId $($serviceServicePrincipalObjectId)
+
+# Display members of the Power BI Apps group
 Write-Host "Members of Azure AD group named $adSecurityGroupName"
 Get-AzureADGroupMember -ObjectId $($adSecurityGroup.ObjectId) | Format-Table ObjectType, ObjectId, DisplayName
 
-$outputFile = "$PSScriptRoot\TestAppOwnsDataApp.txt"
-Out-File -FilePath $outputFile -InputObject "--- Confidential Client App Info for PowerBiServiceApp3 ---"
+# create text file with info required for application that uses the application
+$outputFile = "$PSScriptRoot\AppOwnsDataEmbeddingApp.txt"
+Out-File -FilePath $outputFile -InputObject "--- Confidential Client App Info for AppOwnsDataEmbeddingApp ---"
 Out-File -FilePath $outputFile -Append -InputObject "ClientId: $appId"
 Out-File -FilePath $outputFile -Append -InputObject "ClientSecret: $appSecret"
-Out-File -FilePath $outputFile -Append -InputObject "Service Principal Object ID: $serviceServicePrincipalObjectId"
 Out-File -FilePath $outputFile -Append -InputObject "TenantName: $tenantName"
-Out-File -FilePath $outputFile -Append -InputObject "TenantId: $tenantId"
+Out-File -FilePath $outputFile -Append -InputObject ""
+Out-File -FilePath $outputFile -Append -InputObject "AppWorkspaceId: "
+Out-File -FilePath $outputFile -Append -InputObject "DatasetId: "
+Out-File -FilePath $outputFile -Append -InputObject "ReportId: "
+Out-File -FilePath $outputFile -Append -InputObject "DashboardId: "
+Out-File -FilePath $outputFile -Append -InputObject ""
 
 Notepad $outputFile
