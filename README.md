@@ -1,2 +1,2 @@
 # Power BI Development in a Day with Ted Pattison
-Slides and sample code from the SharePoint NA Conference postcon workshop on Power BI development by Ted Pattison.
+Student materials including slides, lab exercises and sample code from the Microsoft Business Application Summit Power BI Developer-in-a-Day precon workshop by Ted Pattison.
