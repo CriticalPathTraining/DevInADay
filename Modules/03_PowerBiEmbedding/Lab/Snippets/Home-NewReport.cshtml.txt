@@ -1,4 +1,4 @@
-﻿@model EmbeddedLab.Models.NewReportEmbeddingData
+﻿@model AppOwnsDataApp.Models.NewReportEmbeddingData
 
 <div id="embedContainer" />
 

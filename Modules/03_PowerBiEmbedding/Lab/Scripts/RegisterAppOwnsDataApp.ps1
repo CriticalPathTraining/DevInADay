@@ -59,7 +59,7 @@ Write-Host "Members of Azure AD group named $adSecurityGroupName"
 Get-AzureADGroupMember -ObjectId $($adSecurityGroup.ObjectId) | Format-Table ObjectType, ObjectId, DisplayName
 
 # create text file with info required for application that uses the application
-$outputFile = "$PSScriptRoot\AppOwnsDataEmbeddingApp.txt"
+$outputFile = "$PSScriptRoot\AppOwnsDataApp.txt"
 Out-File -FilePath $outputFile -InputObject "--- Confidential Client App Info for AppOwnsDataEmbeddingApp ---"
 Out-File -FilePath $outputFile -Append -InputObject "ClientId: $appId"
 Out-File -FilePath $outputFile -Append -InputObject "ClientSecret: $appSecret"

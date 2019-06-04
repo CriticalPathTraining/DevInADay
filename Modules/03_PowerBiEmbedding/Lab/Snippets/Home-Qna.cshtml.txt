@@ -1,4 +1,4 @@
-﻿@model EmbeddedLab.Models.QnaEmbeddingData
+﻿@model AppOwnsDataApp.Models.QnaEmbeddingData
 
 <div id="embedContainer" />
 
@@ -20,7 +20,7 @@
     embedUrl: embedUrl,
     datasetIds: [datasetId],
     viewMode: models.QnaMode.Interactive,
-    question: "What is sales revenue by quarter and sales region as stacked area chart"
+    question: "What is sales revenue by quarter and sales region as stacked area chart"
   };
 
   // Get a reference to the embedded report HTML element

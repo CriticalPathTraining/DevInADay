@@ -1,4 +1,4 @@
-﻿@model EmbeddedLab.Models.DashboardEmbeddingData
+﻿@model AppOwnsDataApp.Models.DashboardEmbeddingData
 
 <div id="embedContainer" />
 

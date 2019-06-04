@@ -1,4 +1,4 @@
-﻿@model EmbeddedLab.Models.ReportEmbeddingData
+﻿@model AppOwnsDataApp.Models.ReportEmbeddingData
 
 @section toolbar {
   <div id="toolbar" class="btn-toolbar bg-dark" role="toolbar">
@@ -10,11 +10,12 @@
 
 <div id="embedContainer" />
 
+
 <script src="~/Scripts/powerbi.js"></script>
 
 <script>
 
-  // data required for embedding Power BI report
+  // Data required for embedding Power BI report
   var embedReportId = "@Model.reportId";
   var embedUrl = "@Model.embedUrl";
   var accessToken = "@Model.accessToken";
@@ -64,10 +65,3 @@
   });
 
 </script>
-
-@{
-    ViewBag.Title = "Reports";
-}
-
-<h2>Reports</h2>
-

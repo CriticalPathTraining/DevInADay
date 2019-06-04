@@ -1,4 +1,6 @@
-﻿@model EmbeddedLab.Models.ReportEmbeddingData
+﻿@model AppOwnsDataApp.Models.ReportEmbeddingData
+
+<div id="embedContainer" />
 
 @section toolbar {
   <div id="toolbar" class="btn-toolbar bg-dark" role="toolbar">
@@ -7,8 +9,6 @@
     <button type="button" id="print" class="btn btn-sm">Print</button>
   </div>
 }
-
-<div id="embedContainer" />
 
 <script src="~/Scripts/powerbi.js"></script>
 
@@ -27,8 +27,8 @@
     id: embedReportId,
     embedUrl: embedUrl,
     accessToken: accessToken,
-    tokenType: models.TokenType.Embed,
     permissions: models.Permissions.All,
+    tokenType: models.TokenType.Embed,
     viewMode: models.ViewMode.View,
     settings: {
       filterPaneEnabled: false,
@@ -62,5 +62,6 @@
   $("#print").click(function () {
     report.print();
   });
+
 
 </script>

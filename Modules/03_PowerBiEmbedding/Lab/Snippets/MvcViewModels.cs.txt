@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.PowerBI.Api.V2.Models;
-
-namespace EmbeddedLab.Models {
+﻿namespace AppOwnsDataApp.Models {
 
   // data required for embedding a report
   public class ReportEmbeddingData {
@@ -34,7 +30,5 @@ namespace EmbeddedLab.Models {
     public string embedUrl;
     public string accessToken;
   }
-
-
 
 }
