@@ -1,0 +1,12 @@
+﻿{
+  "name": "SurveyResponses",
+  "defaultMode": "Push",
+  "tables": [ {
+      "name": "Surveys",
+      "columns": [
+        { "name": "Attendee", "dataType": "string" },
+        { "name": "DevYears", "dataType": "Double" }
+      ]
+    }
+  ]
+}
